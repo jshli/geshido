@@ -1,0 +1,173 @@
+.dashboard-section {
+    display: grid;
+    grid-template-columns: 25% auto;
+    height: 100vh;
+}
+
+.sidebar{
+    background-color: lightgrey;
+}
+
+.dashboard-main{
+    padding: 7rem;
+}
+
+.task-input {
+    width: 100%;
+    height: 3rem;
+    border: none;
+    border-bottom: 1px solid grey;
+    padding: 3rem 4rem;
+    background: none;
+    font-size: 1.5rem;
+}
+
+.task-create-form {
+    display: flex;
+}
+
+.icn-btn {
+    background: none;
+    border: none;
+}
+
+.btn--stop {
+    color: red;
+}
+
+.task-create__btn {
+    color: grey;
+    margin-right: -2rem;
+}
+
+.task-item--wrap{
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    cursor: pointer;
+}
+
+.task-item {
+    display: grid;
+    grid-template-columns: 10% auto;
+    border-bottom: 1px lightgrey solid;
+}
+
+.task-edit__wrap {
+    position:absolute;
+    height: 100%;
+    width: 100%;
+    display:flex;
+    justify-content: flex-end;
+    right: 0;
+}
+
+
+.task-edit--btn {
+    right:0;
+    height: 100%;
+    width: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.edit-btn {
+    color: white
+}
+
+.btn--delete {
+    background-color: #C83D57
+}
+
+.btn--edit {
+    background-color: #333
+}
+
+
+.task-item--completed {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+.task-item__check {
+    border-right: 1px lightgrey solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.task-item__details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 3rem;
+    overflow: hidden;
+    background-color: white;
+    z-index: 2;
+    transition: all ease-out 0.5s;
+    width: 100%;
+}
+
+.task-item__details--shrink{
+    width: 70%
+}
+
+.task-item__header-wrap{
+    display: flex;
+    flex-direction: column;
+}
+
+.check {
+    border: 2px #5C4B7C solid;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 1000px;
+    padding: 0;
+}
+
+.check--completed {
+    background-color: #5C4B7C;
+    color: white
+}
+
+.timer-form{
+    display: flex;
+}
+
+.timer {
+    margin-bottom: 0;
+    font-size: 1.5rem;
+    margin-right: 1.5rem;
+}
+
+.projects-wrap {
+    display: grid;
+    height: 100%;
+    grid-auto-columns: 25% 25% 25% 25%;
+    grid-auto-rows: 33% 33% 33%;
+    grid-row-gap: 1rem;
+    grid-column-gap: 1rem;
+    grid-auto-flow: column;
+}
+
+.project-card {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    padding: 1rem;
+}
+
+.add-project-btn {
+    align-items: center;
+    justify-content: center;
+    background-color: #5C4B7C;
+    color: white;
+    font-size: 2rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+}
