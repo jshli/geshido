@@ -30,3 +30,12 @@ CREATE TABLE projects (
     max_hours INTEGER,
     user_id INTEGER
 );
+
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY, 
+    first_name VARCHAR(600),
+    last_name VARCHAR(600),
+    email VARCHAR(600),
+    password_digest VARCHAR(600)
+);

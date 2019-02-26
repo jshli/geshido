@@ -8,6 +8,26 @@ require_relative 'db_config'
 require_relative 'models/task'
 require_relative 'models/timer'
 require_relative 'models/project'
+require_relative 'models/user'
+
+enable :sessions
+
+
+helpers do 
+
+  def current_user
+  User.find_by(id: session[:user_id])
+  end
+
+  def logged_in?
+      if current_user
+          true
+      else  
+          false
+      end
+  end
+
+end
 
 def timer_currently_running?(task_id)
     return true if (Timer.where(task_id: task_id).where(end_time: nil)).length != 0
@@ -95,3 +115,35 @@ get '/projects' do
   # @tasks = Project.join(:tasks)
   erb :projects
 end
+
+get '/signup' do
+  erb :signup
+end 
+
+post '/signup' do 
+  user = User.new
+  user.first_name = params[:first_name]
+  user.last_name = params[:last_name]
+  user.email = params[:email]
+  user.password = params[:password]
+  user.save
+
+redirect '/login'
+end 
+
+get '/login' do
+  erb :login
+end
+
+post '/session' do
+  user = User.find_by(email: params[:email])
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect "/tasks"
+    else 
+      raise "no"
+      erb :login
+    end 
+end
+
+
