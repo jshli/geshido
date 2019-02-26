@@ -116,6 +116,18 @@ get '/projects' do
   erb :projects
 end
 
+get '/project/new' do
+  
+  erb :new_project
+end
+
+post '/project/new' do
+  project = Project.new
+  project.max_hours = params[:max_hours]
+  project.save
+  redirect '/projects'
+end 
+
 get '/signup' do
   erb :signup
 end 
@@ -145,5 +157,8 @@ post '/session' do
       erb :login
     end 
 end
+
+
+
 
 

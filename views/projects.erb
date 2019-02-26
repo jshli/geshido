@@ -5,14 +5,15 @@
   </div>
   <div class="dashboard-main">
     <h2 class="section__header">Projects</h2>
-        <div class="projects-wrap">
-            <a class="project-card add-project-btn" href="">
+        <div class="projects-wrap">     
+            <a class="project-card add-project-btn" href="/project/new">
                 <i class="fas fa-plus"></i>
             </a>
     <%@project.each do |project|%>
             <div class="project-card">
                 <h4><%=project[:name]%></h4>
                 <p><%=@tasks.where(project_id: project[:id]).length%> tasks</p>
+                <a class="project-card" href=""></a>
             </div>
         </div>
     <%end%>
