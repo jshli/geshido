@@ -106,3 +106,23 @@ get '/api/tasks' do
   tasks.to_json
   # res["currently"].to_json
 end
+
+post '/api/tasks' do
+  @task = Task.new
+  @task.task_name = params[:task_name]
+  @task.created_at = Time.new
+  @task.save
+  redirect '/tasks'
+end
+
+get '/api/timers' do 
+  timers = Timer.all
+  content_type "application/json"
+  timers.to_json
+end
+
+get '/api/projects' do
+  projects = Project.all
+  content_type "application/json"
+  projects.to_json
+end
