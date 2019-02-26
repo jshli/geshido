@@ -7,23 +7,17 @@
 //     }, 1000);
 // }
 
-const taskItem = document.querySelectorAll('.task-item--wrap')
-const header = document.querySelector('.section__header');
+// const header = document.querySelector('.section__header');
 
-const editShift = event => {
 
-    if (event.target.classList.contains('task-item__details')){
-        event.target.classList.toggle('task-item__details--shrink');
-    }
+// var swipe = new Hammer(header);
 
-    console.log(event.target)
-};
+// swipe.on('tap', function(ev) {
+// 	console.log("hello");
+// });
 
-var swipe = new Hammer(header);
+// taskItem.forEach(el => el.addEventListener('click', editShift));
 
-swipe.on('tap', function(ev) {
-	console.log("hello");
-});
-
-taskItem.forEach(el => el.addEventListener('click', editShift));
-
+// $( function() {
+//     $( "#datepicker" ).datepicker();
+//   } );

@@ -3,6 +3,7 @@ require 'sinatra/reloader'
 require 'pry'
 require 'active_record'
 require 'pg'
+require "httparty"
 require 'time_difference'
 require_relative 'db_config'
 require_relative 'models/task'
@@ -28,6 +29,8 @@ helpers do
   end
 
 end
+
+set :allow_origin, '*'
 
 def timer_currently_running?(task_id)
     return true if (Timer.where(task_id: task_id).where(end_time: nil)).length != 0
@@ -116,6 +119,7 @@ get '/projects' do
   erb :projects
 end
 
+<<<<<<< HEAD
 get '/project/new' do
   
   erb :new_project
@@ -162,3 +166,32 @@ end
 
 
 
+=======
+
+get '/api/tasks' do
+  tasks = Task.all
+  content_type "application/json"
+  tasks.to_json
+  # res["currently"].to_json
+end
+
+post '/api/tasks' do
+  @task = Task.new
+  @task.task_name = params[:task_name]
+  @task.created_at = Time.new
+  @task.save
+  redirect '/tasks'
+end
+
+get '/api/timers' do 
+  timers = Timer.all
+  content_type "application/json"
+  timers.to_json
+end
+
+get '/api/projects' do
+  projects = Project.all
+  content_type "application/json"
+  projects.to_json
+end
+>>>>>>> master
