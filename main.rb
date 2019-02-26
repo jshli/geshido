@@ -3,11 +3,14 @@ require 'sinatra/reloader'
 require 'pry'
 require 'active_record'
 require 'pg'
+require "httparty"
 require 'time_difference'
 require_relative 'db_config'
 require_relative 'models/task'
 require_relative 'models/timer'
 require_relative 'models/project'
+
+set :allow_origin, '*'
 
 def timer_currently_running?(task_id)
     return true if (Timer.where(task_id: task_id).where(end_time: nil)).length != 0
@@ -94,4 +97,12 @@ get '/projects' do
   @tasks = Task.all
   # @tasks = Project.join(:tasks)
   erb :projects
+end
+
+
+get '/api/tasks' do
+  tasks = Task.all
+  content_type "application/json"
+  tasks.to_json
+  # res["currently"].to_json
 end
