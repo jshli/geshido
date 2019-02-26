@@ -19,11 +19,11 @@ const editShift = event => {
     console.log(event.target)
 };
 
-var swipe = new Hammer(header);
+// var swipe = new Hammer(header);
 
-swipe.on('tap', function(ev) {
-	console.log("hello");
-});
+// swipe.on('tap', function(ev) {
+// 	console.log("hello");
+// });
 
 taskItem.forEach(el => el.addEventListener('click', editShift));
 

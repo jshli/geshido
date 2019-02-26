@@ -10,52 +10,57 @@
           <button class="icn-btn task-create__btn"><i class="fas fa-plus"></i></button>
           <input class="task-input" name="task_name" placeholder="New Task">
         </form>
-        <%@tasks.each do |task|%>
-          <div class="task-item <%if task[:completed]%>task-item--completed <%end%>">
-            <%if task[:completed]==nil || !task[:completed]%>
-              <form class="task-item__check" action="/task/<%=task[:id]%>/complete" method="post">
-                <input type="hidden" name="_method" value="put">
-                <button class="check"></button>
-              </form>
-            <%else%>
-              <form class="task-item__check" action="/task/<%=task[:id]%>/uncomplete" method="post">
-                <input type="hidden" name="_method" value="put">
-                <button class="check check--completed"><i class="fas fa-check"></i></button>
-              </form>
-            <%end%>
-            <div class="task-item--wrap">
-              <div class="task-edit__wrap">
-                <form class="task-edit--btn btn--delete" action="/tasks/<%=task[:id]%>" method="post">
-                  <input type="hidden" name="_method" value="delete">
-                  <button class='edit-btn icn-btn'><i class="fas fa-trash-alt"></i></button>
-                </form>
-                <form class="task-edit--btn btn--edit" action="" method="post">
+        <div class='task-list'>
+          <%@tasks.each do |task|%>
+            <div class="task-item <%if task[:completed]%>task-item--completed <%else%>task-item--uncomplete<%end%>"data-completed="<%if task[:completed]%>true<%else%>false<%end%>" data-created="<%=task[:created_at]%>">
+              <%if task[:completed]==nil || !task[:completed]%>
+                <form class="task-item__check" action="/task/<%=task[:id]%>/complete" method="post">
                   <input type="hidden" name="_method" value="put">
-                  <button class='edit-btn icn-btn'><i class="fas fa-pen"></i></button>
+                  <button class="check"></button>
                 </form>
-              </div>
-              <div class="task-item__details">
-                <div class="task-item__header-wrap">
-                  <p>Web Development</p>
-                  <h4><%=task[:task_name]%></h3>
-                </div>
-                <%if timer_currently_running?(task[:id])%>
-                <form class="timer-form" action="/<%=task[:id]%>/stop-timer" method="post">
-                  <p class="timer"><%=time_conversion((TimeDifference.between(get_current_timer(task[:id]),@current_time).in_minutes).round)%></p>
+              <%else%>
+                <form class="task-item__check" action="/task/<%=task[:id]%>/uncomplete" method="post">
                   <input type="hidden" name="_method" value="put">
-                  <input type="hidden" name="">
-                  <button class="icn-btn btn--stop"><i class="far fa-clock"></i></button>
-                <%else%>
-                  <form action="/<%=task[:id]%>/start-timer" method="post">
-                    <input type="hidden" name="">
-                    <button class="icn-btn"><i class="far fa-clock"></i></button>
+                  <button class="check check--completed"><i class="fas fa-check"></i></button>
+                </form>
+              <%end%>
+              <div class="task-item--wrap">
+                <div class="task-edit__wrap">
+                  <form class="task-edit--btn btn--delete" action="/tasks/<%=task[:id]%>" method="post">
+                    <input type="hidden" name="_method" value="delete">
+                    <button class='edit-btn icn-btn'><i class="fas fa-trash-alt"></i></button>
                   </form>
-                <%end%>
-                </form>
+                  <form class="task-edit--btn btn--edit" action="" method="post">
+                    <input type="hidden" name="_method" value="put">
+                    <button class='edit-btn icn-btn'><i class="fas fa-pen"></i></button>
+                  </form>
+                </div>
+                <div class="task-item__details">
+                  <div class="task-item__header-wrap">
+                    <p>Web Development</p>
+                    <h4><%=task[:task_name]%></h3>
+                  </div>
+                  <%if timer_currently_running?(task[:id])%>
+                  <form class="timer-form" action="/<%=task[:id]%>/stop-timer" method="post">
+                    <p class="timer"><%=time_conversion((TimeDifference.between(get_current_timer(task[:id]),@current_time).in_minutes).round)%></p>
+                    <input type="hidden" name="_method" value="put">
+                    <input type="hidden" name="">
+                    <button class="icn-btn btn--stop"><i class="far fa-clock"></i></button>
+                  <%else%>
+                    <form action="/<%=task[:id]%>/start-timer" method="post">
+                      <input type="hidden" name="">
+                      <button class="icn-btn"><i class="far fa-clock"></i></button>
+                    </form>
+                  <%end%>
+                  </form>
+                </div>
               </div>
             </div>
-          </div>
-        <%end%>
+          <%end%>
+        </div>
       </div>
   </div>
+  
 </section>
+
+<script src="/javascripts/tasks.js"></script>
