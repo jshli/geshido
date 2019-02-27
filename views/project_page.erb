@@ -10,6 +10,7 @@
       <div>
         <form class="task-create-form" action="/tasks" method="post">
           <button class="icn-btn task-create__btn"><i class="fas fa-plus"></i></button>
+          <input type="hidden" name="project_id" value="<%= @project.id%>">
           <input class="task-input" name="task_name" placeholder="New Task">
         </form>
         <div class='task-list'>

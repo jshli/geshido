@@ -35,14 +35,10 @@ const completeTask = event => {
 const createTaskItem = task => {
   var taskItem = document.createElement('div');
       taskItem.classList.add('task-item')
-      taskItem.setAttribute('data-created', `${task.created_at}`)
+    
       if (task.completed) {
         taskItem.classList.add('task-item--completed')
-        taskItem.setAttribute('data-created', `${task.created_at}`)
-        taskItem.setAttribute('data-completed', `true`)
-      } else {
-        taskItem.classList.add('task-item--uncomplete')
-        taskItem.setAttribute('data-completed', `false`)
+       
       }
       let taskItemWrapHtml = `
         <div class="task-item--wrap">
