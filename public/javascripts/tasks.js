@@ -107,6 +107,7 @@ const createTaskItem = task => {
             <div class="task-item__header-wrap">
               <p>Web Development</p>
               <h4>${task.task_name}</h3>
+              ${task.due_date?  `<p>${moment(task.due_date).startOf('day').fromNow()}</p>` : ""}
             </div>
             ${timerCurrentlyRunning(task.id) !== undefined ? `
               <form class="timer-form" action="/${task.id}/stop-timer" method="post">
@@ -156,7 +157,7 @@ const createTaskItem = task => {
               </div>
               <div class="modal-form__clmn">
                 <label for="">Due Date</label>
-                <input type="text" name="due_date" id="datepicker">
+                <input type="datetime-local" name="due_date"">
               </div>
               <div class="modal-form__clmn">
                 <label for="">Priority</label>
@@ -202,7 +203,6 @@ const addNewTask = event => {
   })
   .then(res => res.json())
   .then(function(res){
-    console.log(res)
     taskList.insertBefore(createTaskItem(res), taskList.childNodes[0])
   })
 }
