@@ -185,8 +185,8 @@
 
 .modal-overlay {
     position: fixed;
-    /* opacity: 0;
-    visibility: hidden; */
+    opacity: 0;
+    visibility: hidden;
     height: 100%;
     width: 100%;
     background: rgba(255, 255, 255,0.4);
@@ -244,27 +244,38 @@
 }
 
 .switch-wrapper {
-    width: 50%;
+    width: 4.5rem;
     background: white;
     height: 2rem;
     border-radius: 100px;
     position: relative;
+    background: #5C4B7C;
+    opacity: 0.8;
+    transition: all ease-out 0.3s;
 }
 
-.switch-wrapper {
-    background: #5C4B7C;
+.switch-wrapper--active {
+    opacity: 1;
 }
 
 .switch {
-    height: 2rem;
-    width: 2rem;
+    margin-top: 1px;
+    height: 1.8rem;
+    width: 1.8rem;
     position: absolute;
     background: white;
     border-radius:1000px;
-    left: 0;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.25) 
+    left: 2px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+    transition: all ease-out 0.3s;
 }
 .switch--right {
-    left: auto;
-    right: 0;
+    transform: translateX(2.5rem);
+
+}
+
+.checkbox {
+    height: 100%;
+    width: 100%;
+    visibility: hidden;
 }

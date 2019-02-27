@@ -54,6 +54,16 @@ delete '/tasks/:id' do
   redirect '/tasks'
 end
 
+put '/task/:id/edit' do
+  task = Task.find(params[:id])
+  task.task_name = params[:name]
+  task.due_date = params[:due_date]
+  if params[:priority]
+    task.priority = true
+  end
+  task.save
+  redirect '/tasks'
+end
 
 put '/task/:id/complete' do
   @task = Task.find(params[:id])

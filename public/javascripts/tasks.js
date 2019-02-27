@@ -48,6 +48,7 @@ const uncompleteTask = event => {
     event.target.closest('form').attributes.action.value = `/task/${taskId}/complete`;
     event.target.removeEventListener("submit", uncompleteTask)
     event.target.addEventListener('submit', completeTask);
+
   }
   fetch(url,{
     method: 'PUT',
@@ -58,7 +59,24 @@ const uncompleteTask = event => {
 }
 
 const addPriority = event => {
-  event.target
+  event.target.classList.toggle('switch--right');
+  event.target.closest('.switch-wrapper').classList.toggle('switch-wrapper--active');
+  event.target.closest('.switch-wrapper').querySelector('.checkbox').click();
+}
+
+const closeEditModal = event => {
+  console.log('hi')
+  event.preventDefault();
+  event.target.closest('.modal-overlay').classList.remove('modal-overlay--active');
+}
+
+const showEditModal = event => {
+  event.preventDefault();
+  event.target.closest('.task-item').querySelector('.modal-overlay').classList.toggle('modal-overlay--active');
+  const switcher = event.target.closest('.task-item').querySelector('.switch');
+  switcher.addEventListener('click', addPriority);
+  const closeBtn = event.target.closest('.task-item').querySelector('.modal-close');
+  closeBtn.addEventListener('click', closeEditModal)
 }
 
 
@@ -124,8 +142,8 @@ const createTaskItem = task => {
       const modalOverlay = document.createElement('div');
       modalHtml = `<div class="modal">
           <button class="modal-close"><i class="fas fa-times"></i></button>
-          <form class="modal-form" action="/" method="post">
-            <input type="hidden" name="_method" value="post">
+          <form class="modal-form" action="/task/${task.id}/edit" method="post">
+            <input type="hidden" name="_method" value="put">
             <input type="hidden" name="id" value="${task.id}">
             <label for="">Name</label>
             <input class="modal__name-input" type="text" name="name" placeholder="${task.task_name}" value="${task.task_name}">
@@ -144,7 +162,7 @@ const createTaskItem = task => {
                 <label for="">Priority</label>
                 <div class="switch-wrapper">
                   <div class="switch"></div>
-                  <input type="checkbox" name="priority" value="true">
+                  <input class="checkbox" type="checkbox" name="priority">
                 </div>
               </div>
             </div>
@@ -156,7 +174,8 @@ const createTaskItem = task => {
       taskItem.appendChild(checkForm);
       taskItem.appendChild(taskItemWrap);
       taskItem.appendChild(modalOverlay);
-      const switcher = document.querySelector('.switch');
+      const editBtn = document.querySelectorAll('.btn--edit');
+      editBtn.forEach(el => el.addEventListener('submit', showEditModal))
       return taskItem;
 }
 
