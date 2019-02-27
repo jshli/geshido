@@ -119,7 +119,6 @@ get '/projects' do
   erb :projects
 end
 
-<<<<<<< HEAD
 get '/project/new' do
   
   erb :new_project
@@ -127,10 +126,18 @@ end
 
 post '/project/new' do
   project = Project.new
+  project.name = params[:name]
   project.max_hours = params[:max_hours]
   project.save
   redirect '/projects'
 end 
+
+get '/project/:name' do
+  @project = Project.find_by(name: params[:name])
+  @name = @project.name
+  erb :project_page
+end
+
 
 get '/signup' do
   erb :signup
@@ -157,16 +164,16 @@ post '/session' do
       session[:user_id] = user.id
       redirect "/tasks"
     else 
-      raise "no"
       erb :login
     end 
 end
 
+get '/calendar' do 
+
+  erb :calendar
+end 
 
 
-
-
-=======
 
 get '/api/tasks' do
   tasks = Task.all
@@ -194,4 +201,20 @@ get '/api/projects' do
   content_type "application/json"
   projects.to_json
 end
->>>>>>> master
+
+get '/api/project/:name/tasks' do
+  @project = Project.find_by(name: params[:name])
+  tasks = Task.where(project_id: @project.id)
+  content_type "application/json"
+  tasks.to_json
+end 
+
+
+
+
+
+
+
+
+
+

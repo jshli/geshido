@@ -6,7 +6,8 @@ CREATE TABLE tasks (
     user_id INTEGER,
     completed BOOLEAN,
     project_id INTEGER,
-    FOREIGN KEY (user_id) REFERENCES users (id) on DELETE RESTRICT
+    FOREIGN KEY (user_id) REFERENCES users (id) on DELETE RESTRICT,
+    FOREIGN KEY (project_id) REFERENCES projects (id) on DELETE RESTRICT 
 );
 
 
