@@ -5,7 +5,9 @@ CREATE TABLE tasks (
     task_name VARCHAR(6000),
     user_id INTEGER,
     completed BOOLEAN,
-    project_id INTEGER
+    project_id INTEGER,
+    FOREIGN KEY (user_id) REFERENCES users (id) on DELETE RESTRICT,
+    FOREIGN KEY (project_id) REFERENCES projects (id) on DELETE RESTRICT 
 );
 
 
@@ -28,5 +30,16 @@ CREATE TABLE projects (
     id SERIAL PRIMARY KEY,
     name VARCHAR(600),
     max_hours INTEGER,
-    user_id INTEGER
+    user_id INTEGER,
+    FOREIGN KEY (user_id) REFERENCES users (id) on DELETE RESTRICT
 );
+
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY, 
+    first_name VARCHAR(600),
+    last_name VARCHAR(600),
+    email VARCHAR(600),
+    password_digest VARCHAR(600)
+);
+

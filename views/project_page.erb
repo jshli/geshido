@@ -1,0 +1,25 @@
+
+<section class="dashboard-section">
+  <div class="sidebar">
+    <a href="">Tasks</a>
+    <a href="">Projects</a>
+  </div>
+  <div class="dashboard-main">
+    <h1><%= @project.name %></h1>
+    <h2 class="section__header">Tasks</h2>
+      <div>
+        <form class="task-create-form" action="/tasks" method="post">
+          <button class="icn-btn task-create__btn"><i class="fas fa-plus"></i></button>
+          <input class="task-input" name="task_name" placeholder="New Task">
+        </form>
+        <div class='task-list'>
+        </div>
+      </div>
+  </div>
+  
+</section>
+
+
+
+<script src="/javascripts/application.js"></script>
+<script src="/javascripts/project_tasks.js"></script>

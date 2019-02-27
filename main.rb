@@ -9,6 +9,26 @@ require_relative 'db_config'
 require_relative 'models/task'
 require_relative 'models/timer'
 require_relative 'models/project'
+require_relative 'models/user'
+
+enable :sessions
+
+
+helpers do 
+
+  def current_user
+  User.find_by(id: session[:user_id])
+  end
+
+  def logged_in?
+      if current_user
+          true
+      else  
+          false
+      end
+  end
+
+end
 
 set :allow_origin, '*'
 
@@ -109,6 +129,61 @@ get '/projects' do
   erb :projects
 end
 
+get '/project/new' do
+  
+  erb :new_project
+end
+
+post '/project/new' do
+  project = Project.new
+  project.name = params[:name]
+  project.max_hours = params[:max_hours]
+  project.save
+  redirect '/projects'
+end 
+
+get '/project/:name' do
+  @project = Project.find_by(name: params[:name])
+  @name = @project.name
+  erb :project_page
+end
+
+
+get '/signup' do
+  erb :signup
+end 
+
+post '/signup' do 
+  user = User.new
+  user.first_name = params[:first_name]
+  user.last_name = params[:last_name]
+  user.email = params[:email]
+  user.password = params[:password]
+  user.save
+
+redirect '/login'
+end 
+
+get '/login' do
+  erb :login
+end
+
+post '/session' do
+  user = User.find_by(email: params[:email])
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect "/tasks"
+    else 
+      erb :login
+    end 
+end
+
+get '/calendar' do 
+
+  erb :calendar
+end 
+
+
 
 get '/api/tasks' do
   tasks = Task.all
@@ -136,3 +211,20 @@ get '/api/projects' do
   content_type "application/json"
   projects.to_json
 end
+
+get '/api/project/:name/tasks' do
+  @project = Project.find_by(name: params[:name])
+  tasks = Task.where(project_id: @project.id)
+  content_type "application/json"
+  tasks.to_json
+end 
+
+
+
+
+
+
+
+
+
+

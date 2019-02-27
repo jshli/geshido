@@ -5,16 +5,18 @@
   </div>
   <div class="dashboard-main">
     <h2 class="section__header">Projects</h2>
-        <div class="projects-wrap">
-            <a class="project-card add-project-btn" href="">
+        <div class="projects-wrap">     
+            <a class="project-card add-project-btn" href="/project/new">
                 <i class="fas fa-plus"></i>
             </a>
-    <%@project.each do |project|%>
-            <div class="project-card">
-                <h4><%=project[:name]%></h4>
-                <p><%=@tasks.where(project_id: project[:id]).length%> tasks</p>
-            </div>
+            <%@project.each do |project|%>
+              <a class="project-btn" href="/project/<%=project[:name]%>">
+                <div class="project-card">
+                  <h4><%=project[:name]%></h4>
+                  <p><%=@tasks.where(project_id: project[:id]).length%> tasks</p>
+                </div>
+              </a>            
+            <%end%>
         </div>
-    <%end%>
   </div>
 </section>
