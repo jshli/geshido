@@ -21,24 +21,72 @@ const editShift = event => {
 
 const completeTask = event => {
   event.preventDefault();
-  var options = {
-    url: `/api/tasks`,
-    data: {task_name: taskName},
-    method: 'put' 
+  let taskId = event.target.closest('form').attributes.action.value.split("/")[2];
+  let url = `/task/${taskId}/complete`;
+  const updateDom = event => {
+    event.target.closest('.task-item').classList.add('task-item--completed');
+    event.target.querySelector('button').classList.add('check--completed')
+    event.target.closest('form').attributes.action.value = `/task/${taskId}/uncomplete`;
+    event.target.removeEventListener("submit", completeTask);
+    event.target.addEventListener('submit', uncompleteTask)
   }
-  const updateDom = res => {
-    event.target.closest('.task-item');
-  }
-  $.ajax(options).done(updateDom)
+  fetch(url,{
+    method: 'PUT',
+  })
+  .then(function(){
+    updateDom(event);
+  })
 }
+
+const uncompleteTask = event => {
+  event.preventDefault();
+  let taskId = event.target.closest('form').attributes.action.value.split("/")[2];
+  let url = `/task/${taskId}/uncomplete`;
+  const updateDom = event => {
+    event.target.querySelector('button').classList.remove('check--completed')
+    event.target.closest('.task-item').classList.remove('task-item--completed');
+    event.target.closest('form').attributes.action.value = `/task/${taskId}/complete`;
+    event.target.removeEventListener("submit", uncompleteTask)
+    event.target.addEventListener('submit', completeTask);
+
+  }
+  fetch(url,{
+    method: 'PUT',
+  })
+  .then(function(){
+    updateDom(event);
+  })
+}
+
+const addPriority = event => {
+  event.target.classList.toggle('switch--right');
+  event.target.closest('.switch-wrapper').classList.toggle('switch-wrapper--active');
+  event.target.closest('.switch-wrapper').querySelector('.checkbox').click();
+}
+
+const closeEditModal = event => {
+  console.log('hi')
+  event.preventDefault();
+  event.target.closest('.modal-overlay').classList.remove('modal-overlay--active');
+}
+
+const showEditModal = event => {
+  event.preventDefault();
+  event.target.closest('.task-item').querySelector('.modal-overlay').classList.toggle('modal-overlay--active');
+  const switcher = event.target.closest('.task-item').querySelector('.switch');
+  switcher.addEventListener('click', addPriority);
+  const closeBtn = event.target.closest('.task-item').querySelector('.modal-close');
+  closeBtn.addEventListener('click', closeEditModal)
+}
+
 
 const createTaskItem = task => {
   var taskItem = document.createElement('div');
       taskItem.classList.add('task-item')
-    
+
       if (task.completed) {
         taskItem.classList.add('task-item--completed')
-       
+ 
       }
       let taskItemWrapHtml = `
         <div class="task-item--wrap">
@@ -56,6 +104,7 @@ const createTaskItem = task => {
             <div class="task-item__header-wrap">
               <p>Web Development</p>
               <h4>${task.task_name}</h3>
+              ${task.due_date?  `<p>${moment(task.due_date).startOf('day').fromNow()}</p>` : ""}
             </div>
             ${timerCurrentlyRunning(task.id) !== undefined ? `
               <form class="timer-form" action="/${task.id}/stop-timer" method="post">
@@ -76,25 +125,60 @@ const createTaskItem = task => {
         </div>
       `
       const taskItemWrap = document.createElement('div');
-      taskItem.addEventListener('click', editShift)
+      taskItem.addEventListener('click', editShift);
       taskItemWrap.innerHTML = taskItemWrapHtml;
       const checkFormHtml = `
           <input type="hidden" name="_method" value="put">
-          <button class="check ${task.completed ? 'check--completed' : null}"></button>
+          <button class="check ${task.completed ? 'check--completed' : ""}"></button>
         `
       const checkForm = document.createElement('form');
       checkForm.innerHTML = checkFormHtml;
       checkForm.classList.add('task-item__check');
       checkForm.setAttribute('action',`/task/${task.id}/${task.completed ? 'uncomplete':'complete'}`)
       checkForm.setAttribute('method', "post");
-      checkForm.addEventListener('submit', completeTask)
+      task.completed ? checkForm.addEventListener('submit', uncompleteTask) :  checkForm.addEventListener('submit', completeTask);
+      const modalOverlay = document.createElement('div');
+      modalHtml = `<div class="modal">
+          <button class="modal-close"><i class="fas fa-times"></i></button>
+          <form class="modal-form" action="/task/${task.id}/edit" method="post">
+            <input type="hidden" name="_method" value="put">
+            <input type="hidden" name="id" value="${task.id}">
+            <label for="">Name</label>
+            <input class="modal__name-input" type="text" name="name" placeholder="${task.task_name}" value="${task.task_name}">
+            <div class="modal-form__grid">
+              <div class="modal-form__clmn">
+                <label for="">Project</label>
+                <select>
+                  <option>Test project</option>
+                </select>
+              </div>
+              <div class="modal-form__clmn">
+                <label for="">Due Date</label>
+                <input type="datetime-local" name="due_date"">
+              </div>
+              <div class="modal-form__clmn">
+                <label for="">Priority</label>
+                <div class="switch-wrapper">
+                  <div class="switch"></div>
+                  <input class="checkbox" type="checkbox" name="priority">
+                </div>
+              </div>
+            </div>
+            <button>Save task</button>
+          </form>
+        </div>`;
+      modalOverlay.classList.add('modal-overlay')
+      modalOverlay.innerHTML = modalHtml;
       taskItem.appendChild(checkForm);
       taskItem.appendChild(taskItemWrap);
+      taskItem.appendChild(modalOverlay);
+      const editBtn = document.querySelectorAll('.btn--edit');
+      editBtn.forEach(el => el.addEventListener('submit', showEditModal))
       return taskItem;
 }
 
 
-let allTasks = new Array
+let allTasks = new Array;
 
 fetch(taskUrl).then(res => res.json()).then(res => {
   res.forEach(task => {
@@ -110,22 +194,14 @@ fetch(taskUrl).then(res => res.json()).then(res => {
 const addNewTask = event => {
   event.preventDefault();
   let taskName = event.target.closest('form').querySelector('.task-input').value;
-  let data = {"task_name": taskName};
-  let url = `/api/tasks`
+  let url = `/api/tasks?task_name=${taskName}`
   fetch(url,{
     method: 'POST',
-    body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json',
-    }
   })
-  .then(res => console.log(typeof data))
+  .then(res => res.json())
   .then(function(res){
-    console.log(res)
     taskList.insertBefore(createTaskItem(res), taskList.childNodes[0])
   })
 }
-
-
 
 newTaskForm.addEventListener('submit', addNewTask)
