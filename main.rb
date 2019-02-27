@@ -39,6 +39,7 @@ get '/tasks' do
   erb :tasks
 end
 
+
 post '/tasks' do
   @task = Task.new
   @task.task_name = params[:task_name]
@@ -64,7 +65,6 @@ put '/task/:id/complete' do
     @timer[0].total_time = (TimeDifference.between(@timer[0].start_time, @timer[0].end_time).in_minutes).round
     @timer[0].save
   end
-  redirect '/tasks'
 end
 
 put '/task/:id/uncomplete' do
@@ -112,7 +112,7 @@ post '/api/tasks' do
   @task.task_name = params[:task_name]
   @task.created_at = Time.new
   @task.save
-  redirect '/tasks'
+  @task.to_json
 end
 
 get '/api/timers' do 
