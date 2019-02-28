@@ -86,7 +86,6 @@ const createTaskItem = task => {
 
       if (task.completed) {
         taskItem.classList.add('task-item--completed')
- 
       }
       let taskItemWrapHtml = `
         <div class="task-item--wrap">
