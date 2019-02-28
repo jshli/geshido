@@ -83,10 +83,9 @@ const showEditModal = event => {
 const createTaskItem = task => {
   var taskItem = document.createElement('div');
       taskItem.classList.add('task-item')
-    
+
       if (task.completed) {
         taskItem.classList.add('task-item--completed')
-       
       }
       let taskItemWrapHtml = `
         <div class="task-item--wrap">
