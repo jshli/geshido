@@ -236,12 +236,11 @@ get '/api/project/:name/tasks' do
   tasks.to_json
 end 
 
-
-
-
-
-
-
-
-
-
+post '/api/project/:id/tasks' do
+  @task = Task.new
+  @task.name = params[:task_name]
+  @task.created_at = Time.new
+  @task.project_id = params[:project_id]
+  @task.save
+  @task.to_json
+end
