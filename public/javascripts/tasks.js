@@ -35,25 +35,50 @@ const completeTask = event => {
 const convertTime = minutes => {
   hours = minutes / 60
   rest = minutes % 60
-  return `"${hours}:${rest}`
+  return `${Math.floor(hours)}:${rest}`
 }
+
+// async function findRunningTimer(taskId) {
+//   const url = `/api/timer/${taskId}`
+//   fetch(url)
+//   .then(res => res.json())
+//   .then(function(res){
+//     let elapsedTimeUrl = `/api/elapsed-time/${res.id}`
+//     fetch(elapsedTimeUrl, {
+//     }).then(result =>  result.json())
+//       .then(result => convertTime(result.time))
+//   })
+// }
+
+async function findRunningTimer(taskId) {
+  const url = `/api/timer/${taskId}`
+  const res = await fetch(url)
+  let json = await res.json()
+  let elapsedTimeUrl = `/api/elapsed-time/${json.id}`
+  const timerResults = await fetch(elapsedTimeUrl)
+  const timerResultsJson = await timerResults.json()
+  return convertTime(timerResultsJson.time)
+}
+
+
 
 const startTimer = event => {
   event.preventDefault();
   let taskId = event.target.attributes.action.value.split("/")[1];
+  let timeElapsed = findRunningTimer(taskId);
   let url = `/${taskId}/start-timer`;
   const updateDom = event => {
-    const currentTime = moment().format('MMMM Do YYYY, h:mm:ss a');
     event.target.querySelector('.icn-btn').classList.add('btn--stop');
-    event.target.querySelector('.timer').textContent = "p";
+    event.target.removeEventListener('submit', startTimer);
+    event.target.querySelector('.timer').textContent = timeElapsed.then(x => x);
     event.target.addEventListener('submit', stopTimer);
   }
   fetch(url, {
     method: 'POST',
   })
-  .then(function(){
-    updateDom(event)
-  })
+    .then(function(){
+      updateDom(event)
+    })
 }
 
 const stopTimer = event => {
@@ -63,7 +88,9 @@ const stopTimer = event => {
   const updateDom = event => {
     event.target.querySelector('.icn-btn').classList.remove('btn--stop');
     event.target.querySelector('.timer').textContent = "";
+    event.target.removeEventListener('submit', stopTimer);
     event.target.addEventListener('submit', startTimer);
+
   }
   fetch(url, {
     method: 'PUT',
@@ -170,6 +197,7 @@ const createTaskItem = task => {
           </div>
         </div>
       `
+      
       const taskItemWrap = document.createElement('div');
       taskItem.addEventListener('click', editShift);
       taskItemWrap.innerHTML = taskItemWrapHtml;
@@ -219,10 +247,17 @@ const createTaskItem = task => {
       taskItem.appendChild(taskItemWrap);
       taskItem.appendChild(modalOverlay);
       const timerBtn = taskItem.querySelector('.timer-form');
-      timerBtn.addEventListener('submit', startTimer);
       task.priority ? modalOverlay.querySelector('.checkbox').checked = true : modalOverlay.querySelector('.checkbox').checked = false;
       const editBtn = document.querySelectorAll('.btn--edit');
       editBtn.forEach(el => el.addEventListener('submit', showEditModal))
+      if (task.current_timer_id !== null) {
+        timerBtn.addEventListener('submit', stopTimer);
+        findRunningTimer(task.id).then(x => taskItem.querySelector('.timer').textContent = x);
+      } else {
+        timerBtn.addEventListener('submit', startTimer);
+        taskItem.querySelector('.timer').textContent = "";
+      }
+      
       return taskItem;
 }
 
