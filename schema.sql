@@ -43,3 +43,4 @@ CREATE TABLE users (
     password_digest VARCHAR(600)
 );
 
+ALTER TABLE tasks ADD COLUMN current_timer_id INTEGER;
