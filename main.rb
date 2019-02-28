@@ -208,11 +208,20 @@ post '/api/tasks' do
 end
 
 get '/api/timer/:id' do 
-  timer = Timer.find_by(task_id: params[:id])
+  @task = Task.find(params[:id])
+  timer = Timer.find(@task.current_timer_id)
   content_type "application/json"
-  timers.to_json
+  timer.to_json
 end
 
+get '/api/elapsed-time/:id' do
+  timer = Timer.find(params[:id])
+  start_time = timer.start_time
+  current_time = Time.new
+  elapsed_time = (TimeDifference.between(start_time, current_time).in_minutes).round
+  content_type "application/json"
+  {time: elapsed_time.to_s}.to_json
+end
 
 get '/api/projects' do
   projects = Project.all
