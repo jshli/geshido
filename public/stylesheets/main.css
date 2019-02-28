@@ -553,3 +553,53 @@
     align-items: center;
 }
 
+/* night mode switch */
+.nightmode-box{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    justify-content: space-between;
+}
+.nightmode-label{
+    position: absolute;
+    width: 20%;
+    height: 1.8rem;
+    margin-left: 32rem;
+}
+.nightmode-switch-wrapper {
+    width: 2rem;
+    height: 4.5rem;
+    border-radius: 100px;
+    position: relative;
+    background: #5C4B7C;
+    opacity: 0.7;
+    transition: all ease-out 0.3s;
+    
+}
+
+.nightmode-switch-wrapper--active {
+    opacity: 1;
+}
+
+.nightmode-switch {
+    pointer-events: none;
+    margin-top: 1px;
+    height: 1.8rem;
+    width: 1.8rem;
+    position: absolute;
+    background: rgb(38, 37, 37);
+    border-radius:100px;
+    left: 1.8px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+    transition: all ease-out 0.3s;
+}
+.nightmode-switch--down {
+    transform: translateY(3rem);
+}
+
+/* night mode layout */
+
+/* .nightmodelayout{
+
+} */
+
