@@ -83,13 +83,10 @@ const showEditModal = event => {
 const createTaskItem = task => {
   var taskItem = document.createElement('div');
       taskItem.classList.add('task-item')
-      taskItem.setAttribute('data-created', `${task.created_at}`);
+
       if (task.completed) {
-        taskItem.classList.add('task-item--completed');
-        taskItem.setAttribute('data-created', `${task.created_at}`);
-        taskItem.setAttribute('data-completed', `true`);
-      } else {
-        taskItem.setAttribute('data-completed', `false`);
+        taskItem.classList.add('task-item--completed')
+ 
       }
       let taskItemWrapHtml = `
         <div class="task-item--wrap">

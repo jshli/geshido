@@ -28,7 +28,12 @@ helpers do
       end
   end
 
+  def current_project
+    Project.find_by(id: params[:id])
+  end 
+
 end
+
 
 set :allow_origin, '*'
 
@@ -64,6 +69,7 @@ post '/tasks' do
   @task = Task.new
   @task.task_name = params[:task_name]
   @task.created_at = Time.new
+  @task.project_id = params[:project_id]
   @task.save
   redirect '/tasks'
 end
