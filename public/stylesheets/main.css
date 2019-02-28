@@ -1,15 +1,37 @@
 .dashboard-section {
     display: grid;
-    grid-template-columns: 25% auto;
+    grid-template-columns: 5% auto;
     height: 100vh;
 }
 
 .sidebar{
-    background-color: lightgrey;
+    border-right: 1px solid #D3D3D3;
+}
+
+.nav-link {
+    text-transform: uppercase;
+    color: black;
+    transform: rotateZ(90deg);
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.nav-link:hover {
+    text-decoration: line-through;
+    color: black;
+}
+
+.logo-btn {
+    width: 100%;
+    height: 5rem;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .dashboard-main{
-    padding: 7rem;
+    padding: 7rem 15rem 7rem 15rem;
 }
 
 .task-input {
@@ -259,6 +281,7 @@
 }
 
 .switch {
+    pointer-events: none;
     margin-top: 1px;
     height: 1.8rem;
     width: 1.8rem;
@@ -277,7 +300,7 @@
 .checkbox {
     height: 100%;
     width: 100%;
-    visibility: hidden;
+    opacity: 0;
 }
 
 
@@ -514,4 +537,19 @@
     transition: all ease-out 0.5s;
 }
 
+.priority-label {
+    margin-bottom: 0;
+    font-size: 1.5rem;
+    color: #6FB8CF
+}
+
+.priority-div {
+    margin-right: 2rem;
+}
+
+.priority-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 

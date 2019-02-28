@@ -4,13 +4,6 @@ const newTaskForm = document.querySelector('.task-create-form');
 
 const taskUrl = "/api/tasks";
 const projectUrl = "/api/projects";
-const apiTimers = "/api/timers";
-
-const timerCurrentlyRunning = taskId => {
-  fetch(apiTimers).then(res => res.json()).then(res => {
-    res.filter(timer => timer.task_id == taskId).find(timer => timer.end_time.length < 1)
-  })
-}
 
 
 const editShift = event => {
@@ -38,6 +31,48 @@ const completeTask = event => {
   })
 }
 
+
+const convertTime = minutes => {
+  hours = minutes / 60
+  rest = minutes % 60
+  return `"${hours}:${rest}`
+}
+
+const startTimer = event => {
+  event.preventDefault();
+  let taskId = event.target.attributes.action.value.split("/")[1];
+  let url = `/${taskId}/start-timer`;
+  const updateDom = event => {
+    const currentTime = moment().format('MMMM Do YYYY, h:mm:ss a');
+    event.target.querySelector('.icn-btn').classList.add('btn--stop');
+    event.target.querySelector('.timer').textContent = "p";
+    event.target.addEventListener('submit', stopTimer);
+  }
+  fetch(url, {
+    method: 'POST',
+  })
+  .then(function(){
+    updateDom(event)
+  })
+}
+
+const stopTimer = event => {
+  event.preventDefault();
+  let taskId = event.target.attributes.action.value.split("/")[1];
+  let url = `/${taskId}/stop-timer`;
+  const updateDom = event => {
+    event.target.querySelector('.icn-btn').classList.remove('btn--stop');
+    event.target.querySelector('.timer').textContent = "";
+    event.target.addEventListener('submit', startTimer);
+  }
+  fetch(url, {
+    method: 'PUT',
+  })
+  .then(function(){
+    updateDom(event)
+  })
+}
+
 const uncompleteTask = event => {
   event.preventDefault();
   let taskId = event.target.closest('form').attributes.action.value.split("/")[2];
@@ -59,9 +94,9 @@ const uncompleteTask = event => {
 }
 
 const addPriority = event => {
-  event.target.classList.toggle('switch--right');
+  event.target.closest('.switch-wrapper').querySelector('.switch').classList.toggle('switch--right');
   event.target.closest('.switch-wrapper').classList.toggle('switch-wrapper--active');
-  event.target.closest('.switch-wrapper').querySelector('.checkbox').click();
+
 }
 
 const closeEditModal = event => {
@@ -73,8 +108,9 @@ const closeEditModal = event => {
 const showEditModal = event => {
   event.preventDefault();
   event.target.closest('.task-item').querySelector('.modal-overlay').classList.toggle('modal-overlay--active');
-  const switcher = event.target.closest('.task-item').querySelector('.switch');
+  const switcher = event.target.closest('.task-item').querySelector('.checkbox');
   switcher.addEventListener('click', addPriority);
+  event.target.querySelector('.checkbox')
   const closeBtn = event.target.closest('.task-item').querySelector('.modal-close');
   closeBtn.addEventListener('click', closeEditModal)
 }
@@ -104,22 +140,29 @@ const createTaskItem = task => {
             </form>
           </div>
           <div class="task-item__details">
-            <div class="task-item__header-wrap">
-              <p>Web Development</p>
-              <h4>${task.task_name}</h3>
-              ${task.due_date?  `<p>${moment(task.due_date).startOf('day').fromNow()}</p>` : ""}
-            </div>
-            ${timerCurrentlyRunning(task.id) !== undefined ? `
+            <div class='priority-wrapper'>
+              ${task.priority ? `<div class="priority-div">
+                  <p class='priority-label'>!</p>
+              </div>` : ""}
+                
+                <div class="task-item__header-wrap">
+                  <p>Web Development</p>
+                  <h4>${task.task_name}</h3>
+                  ${task.due_date?  `<p>${moment(task.due_date).startOf('day').fromNow()}</p>` : ""}
+                </div>
+              </div>
+            ${task.current_timer_id !== null ? `
               <form class="timer-form" action="/${task.id}/stop-timer" method="post">
-                <p class="timer"><%=time_conversion((TimeDifference.between(get_current_timer(task[:id]),@current_time).in_minutes).round)%></p>
+                <p class="timer"></p>
                 <input type="hidden" name="_method" value="put">
                 <input type="hidden" name="">
                 <button class="icn-btn btn--stop"><i class="far fa-clock"></i></button>
               </form>
               ` 
               : 
-              `<form action="/${task.task_id}/start-timer" method="post">
-                <input type="hidden" name="">
+              `<form class="timer-form" action="/${task.id}/start-timer" method="post">
+              <p class="timer"></p>
+              <input type="hidden" name="">
                 <button class="icn-btn"><i class="far fa-clock"></i></button>
               </form>
           `
@@ -161,8 +204,8 @@ const createTaskItem = task => {
               </div>
               <div class="modal-form__clmn">
                 <label for="">Priority</label>
-                <div class="switch-wrapper">
-                  <div class="switch"></div>
+                <div class="switch-wrapper ${task.priority ? "switch-wrapper--active": ""}">
+                  <div class="switch ${task.priority ? "switch--right": ""}" ></div>
                   <input class="checkbox" type="checkbox" name="priority">
                 </div>
               </div>
@@ -175,6 +218,9 @@ const createTaskItem = task => {
       taskItem.appendChild(checkForm);
       taskItem.appendChild(taskItemWrap);
       taskItem.appendChild(modalOverlay);
+      const timerBtn = taskItem.querySelector('.timer-form');
+      timerBtn.addEventListener('submit', startTimer);
+      task.priority ? modalOverlay.querySelector('.checkbox').checked = true : modalOverlay.querySelector('.checkbox').checked = false;
       const editBtn = document.querySelectorAll('.btn--edit');
       editBtn.forEach(el => el.addEventListener('submit', showEditModal))
       return taskItem;
@@ -206,5 +252,7 @@ const addNewTask = event => {
     taskList.insertBefore(createTaskItem(res), taskList.childNodes[0])
   })
 }
+
+
 
 newTaskForm.addEventListener('submit', addNewTask)

@@ -86,6 +86,8 @@ put '/task/:id/edit' do
   task.due_date = params[:due_date]
   if params[:priority]
     task.priority = true
+  elsif !params.has_key?(:priority)
+    task.priority = false
   end
   task.save
   redirect '/tasks'
@@ -117,14 +119,19 @@ post '/:id/start-timer' do
   @timer.start_time = Time.new
   @timer.task_id = params[:id]
   @timer.save
+  @task.current_timer_id = @timer.id
+  @task.save
   redirect '/tasks'
 end
 
 put '/:id/stop-timer' do
-  @timer = Timer.where(task_id: params[:id]).where(end_time: nil)
-  @timer[0].end_time = Time.new
-  @timer[0].total_time = (TimeDifference.between(@timer[0].start_time, @timer[0].end_time).in_minutes).round
-  @timer[0].save
+  @task = Task.find(params[:id])
+  @timer = Timer.find_by(task_id: params[:id])
+  @timer.end_time = Time.new
+  @timer.total_time = (TimeDifference.between(@timer.start_time, @timer.end_time).in_minutes).round
+  @timer.save
+  @task.current_timer_id = nil
+  @task.save
   redirect '/tasks'
 end
 
@@ -206,11 +213,12 @@ post '/api/tasks' do
   @task.to_json
 end
 
-get '/api/timers' do 
-  timers = Timer.all
+get '/api/timer/:id' do 
+  timer = Timer.find_by(task_id: params[:id])
   content_type "application/json"
   timers.to_json
 end
+
 
 get '/api/projects' do
   projects = Project.all
