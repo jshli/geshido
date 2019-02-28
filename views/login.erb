@@ -1,18 +1,30 @@
-<h1>Please log in</h1>
+<div class="loginbody">
+    <div class="login_wrapper">
+        <h3>Please sign in</h3>
 
-<form action="/session" method="post">
-<label for="">email</label>
-<input name="email" type="text">
+        <div class="emailpasswordwrap">
+            <form class="loginform" action="/session" method="post">
+                <div class="email">
+                    <label for="">Email</label>
+                    <input name="email" type="text">
+                </div>
 
-<label for="">password</label>
-<input name="password" type="password">
+                <div class="password">
+                    <label for="">Password</label>
+                    <input name="password" type="password">
+                </div>
+            </form>
+                <button class="login-btn">Log in</button>
+        </div>
+        <div class="loginsignupbox">
+            <h3>Don't have an account? Sign up</h3>
 
-<button>Log in</button>
-</form>
+            <form action="/signup" method="get">
+            <button class="signup-btn"> Sign up </button>
+            </form>
+        </div>
 
 
-<h1>Don't have an account? Sign up</h1>
+    </div>
 
-<form action="/signup" method="get">
-<button>Sign up</button>
-</form>
+</div>
