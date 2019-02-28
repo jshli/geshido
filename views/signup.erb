@@ -1,18 +1,29 @@
-<h1>Sign up today</h1>
-
-<form action="/signup" method="post">
-
-<label for="">First name</label>
-<input name="first_name" type="text">
-
-<label for="">Last name</label>
-<input name="last_name" type="text">
-
-<label for="">email</label>
-<input name="email" type="text">
-
-<label for="">password</label>
-<input name="password" type="password">
-
-<button>Sign up</button>
-</form>
+<div class="signupbody">
+    <div class="signupwrapper">
+    <h1>The simple to-do list build for freelancers</h1>
+    <h3>Sign-up below to get set up with your free account.</h3>
+        <form class="signup-form" action="/signup" method="post">
+        <div class="first-last-name">
+            <div class="firstname">
+                <label for="">First name</label>
+                <input name="first_name" type="text">
+            </div>
+            <div class="lastname">
+                <label for="">Last name</label>
+                <input name="last_name" type="text">
+            </div>
+        </div>
+        <div class="email_password_wrap">
+            <div class="signupemail">
+                <label for="">email</label>
+                <input name="email" type="text">
+            </div>
+            <div class="signuppassword">
+                <label for="">password</label>
+                <input name="password" type="password">
+            </div>
+        </div>
+        <button class="createac-btn">Create account</button>
+        </form>
+    </div>
+</div>
