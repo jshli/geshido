@@ -1,12 +1,19 @@
-<h1>Create new project</h1>
+<div class="newproject-body">
+    <div class="newproject-wrapper">
+        <h1>Create new project</h1>
+        <div>
+            <form class="newprojectform" action="/project/new" method="post">
+                <div class="projectname">
+                    <label for="">Project name</label>
+                    <input name="name" type="text">
+                </div>
+                <div  class="maxhours">
+                    <label for="">Max hours</label>
+                    <input name="max_hours" type="number">
+                </div>
+                <button> Create </button>
+            </form>
+        </div>
 
-<form action="/project/new" method="post">
-
-<label for="">Project name</label>
-<input name="name" type="text">
-
-<label for="">Max hours</label>
-<input name="max_hours" type="number">
-
-<button> Create </button>
-</form>
+    </div>
+</div>

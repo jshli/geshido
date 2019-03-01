@@ -136,7 +136,7 @@ put '/:id/stop-timer' do
 end
 
 get '/projects' do
-  @project = Project.all
+  @project = Project.where(user_id: current_user.id)
   @tasks = Task.all
   # @tasks = Project.join(:tasks)
   erb :projects
@@ -185,8 +185,9 @@ post '/session' do
   user = User.find_by(email: params[:email])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect "/tasks"
+      redirect "/projects"
     else 
+      raise "no"
       erb :login
     end 
 end

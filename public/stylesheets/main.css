@@ -476,6 +476,7 @@
 
 .signupemail input {
     background: none;
+    size: 30px;
     box-shadow: 0 10px 20px rgba(97, 89, 89, 0.25);
     font-family: 'Poiret One', cursive;
     border: none;
@@ -559,12 +560,16 @@
     flex-direction: row;
     position: relative;
     justify-content: space-between;
+    background-color: #faf8f8;
 }
-.nightmode-label{
+
+.nightmode-box label{
     position: absolute;
     width: 20%;
     height: 1.8rem;
     margin-left: 32rem;
+    font-family: 'Poiret One', cursive;
+    visibility: hidden;
 }
 .nightmode-switch-wrapper {
     width: 2rem;
@@ -594,12 +599,158 @@
     transition: all ease-out 0.3s;
 }
 .nightmode-switch--down {
-    transform: translateY(3rem);
+    transform: translateY(2.5rem);
 }
 
-/* night mode layout */
+/* project page  */
+.newproject-body{
+    height: 100vh;
+}
 
-/* .nightmodelayout{
+.newproject-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: 'Poiret One', cursive;
+    height: 100vh;
+}
 
-} */
+.newproject-wrapper h1{
+    text-align: center;
+    margin-bottom: 2rem;
+}
 
+.newprojectform {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    font-family: 'Poiret One', cursive;
+}
+
+.newprojectform input {
+    background: none;
+    box-shadow: 0 10px 20px rgba(97, 89, 89, 0.25);
+    font-family: 'Poiret One', cursive;
+    border: none;
+    border-radius: 7rem;
+    height: 3rem;
+}
+
+.newprojectform button {
+    border-radius: 1rem;
+    font: 1rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    font-family: 'Poiret One', cursive;
+    width: 10rem;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(142, 136, 136, 0.25)6;
+}
+
+.newprojectform button:hover {
+    background-color: rgb(174, 185, 196, 0.5);
+    box-shadow: 0 5px 20px rgba(142, 136, 136, 0.5)6;
+    transform: translateX(3px);
+    transition: all ease-out 0.5s;
+}
+
+/****************** night mode layout **************************************/
+.night-mode .signupbody{
+    transition: all ease-out 0.3s;
+    background-color: rgb(29, 32, 41);
+}
+
+.night-mode .signupwrapper {
+    transition: all ease-out 0.3s;
+    box-shadow: 0 10px 20px rgba(139, 127, 127, 0.5);
+    background: rgb(35, 38, 58);
+    color: lightgray;
+
+}
+
+.night-mode input{
+    color: lightgray;
+}
+
+.night-mode .nightmode-box{
+    background-color:  rgb(29, 32, 41);
+    color: lightgray;
+    font-family: 'Poiret One', cursive;
+}
+
+.night-mode .nightmode-box label{
+    visibility: visible;
+}
+
+.night-mode .loginbody{
+    transition: all ease-out 0.3s;
+    background-color: rgb(29, 32, 41);
+}
+
+.night-mode .login_wrapper {
+    border: solid lightgray 0.2rem; 
+    box-shadow: 0 10px 20px rgba(242, 240, 240, 0.5);
+    padding: 10%;
+    font-family: 'Poiret One', cursive;
+    background: rgb(35, 38, 58);
+}
+
+.night-mode .login_wrapper input {
+    background: none;
+    box-shadow: 0 10px 20px rgba(223, 221, 221, 0.25);
+    font-family: 'Poiret One', cursive;
+    color: lightgray;
+    border: none;
+}
+
+.night-mode .loginform {
+    background:  rgb(35, 38, 58);
+    color: rgb(254, 252, 252);
+}
+
+.night-mode .emailpasswordwrap{
+    background:  rgb(35, 38, 58);
+    color: rgb(254, 252, 252);
+
+}
+
+.night-mode .loginform input {
+    background-color: rgb(254, 252, 252, 0.5);
+}
+
+.night-mode .projectbody {
+    transition: all ease-out 0.3s;
+    background-color: rgb(29, 32, 41);
+    color: lightgray;
+}
+
+.night-mode .newproject-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: 'Poiret One', cursive;
+    background-color: rgb(29, 32, 41);
+    color: white;
+}
+
+.night-mode .newproject-wrapper h1{
+    text-align: center;
+    margin-bottom: 2rem;
+    color: lightgray;
+}
+
+.night-mode .newprojectform {
+    background:  rgb(29, 32, 41);
+}
+
+.night-mode .newprojectform input {
+    background: rgba(211, 211, 211, 0.057);
+    box-shadow: 0 10px 20px rgba(203, 196, 196, 0.25);
+    color: lightgray;
+}
+
+.night-mode .newprojectform button {
+    
+    box-shadow: 0 5px 20px rgb(247, 245, 245);
+}
