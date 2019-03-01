@@ -2,15 +2,20 @@
 const taskList = document.querySelector('.task-list');
 const newTaskForm = document.querySelector('.task-create-form');
 
-const taskUrl = "/api/project/test/tasks";
+let projectId;
+const projectName = document.querySelector('h1').textContent;
+
+
+const taskUrl = `/api/project/${projectName}/tasks`;
 const projectUrl = "/api/projects";
 const apiTimers = "/api/timers";
-const projectId = document.querySelector
 
-const addNewTask = event => {
+
+
+async function addNewTask(event){
   event.preventDefault();
   let taskName = event.target.closest('form').querySelector('.task-input').value;
-  let url = `/api/project/`
+  let url = `/api/project/${projectName}/${taskName}`
   fetch(url,{
     method: 'POST',
   })

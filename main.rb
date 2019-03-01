@@ -1,5 +1,5 @@
 require 'sinatra'
-# require 'sinatra/reloader'
+require 'sinatra/reloader'
 # require 'pry'
 require 'active_record'
 require 'pg'
@@ -235,6 +235,11 @@ get '/api/projects' do
   projects.to_json
 end
 
+get '/api/project/:name' do
+  project = Project.find_by(name: params[:name])
+  project.to_json
+end
+
 get '/api/project/:name/tasks' do
   @project = Project.find_by(name: params[:name])
   tasks = Task.where(project_id: @project.id)
@@ -242,11 +247,13 @@ get '/api/project/:name/tasks' do
   tasks.to_json
 end 
 
-post '/api/project/:id/tasks' do
+post '/api/project/:project_name/:task_name' do
   @task = Task.new
-  @task.name = params[:task_name]
+  @task.task_name = params[:task_name]
   @task.created_at = Time.new
-  @task.project_id = params[:project_id]
+  @project = Project.find_by(name: params[:project_name])
+  @task.project_id = @project.id;
+  @task.project_name = @project.name;
   @task.save
   @task.to_json
 end
