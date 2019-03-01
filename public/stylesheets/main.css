@@ -8,7 +8,24 @@
     border-right: 1px solid #D3D3D3;
 }
 
-.task__project-name {
+.nav-link-container {
+    animation-name: navlink-animate;
+    animation-duration: 1s;
+    animation-timing-function: ease-out
+}
+
+@keyframes navlink-animate{
+    from {
+        transform: translateY(500%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1
+    }
+}
+
+.task__project-name, .section__subtitle {
     color: rgba(0, 0, 0, 0.5)
 }
 
@@ -23,6 +40,13 @@
     border-radius:50%
 }
 
+p {
+    line-height: 1.5em;
+}
+
+.section__subtitle {
+    color: rgba()
+}
 
 .nav-link {
     text-transform: uppercase;
@@ -113,6 +137,14 @@
     color: white;
 }
 
+
+.btn {
+    color: white;
+    background: #5C4B7C;
+    border-radius: 100px;
+    margin: 0 auto;
+    padding: 0.5rem 2rem;
+}
 .edit-btn {
     color: white
 }
@@ -579,8 +611,11 @@
 .nightmode-box{
     display: flex;
     flex-direction: row;
-    position: relative;
-    justify-content: space-between;
+    justify-content: flex-end;
+    position: absolute;
+    bottom: 1rem;
+    right: 2rem;
+    width: 100%;
 }
 .nightmode-label{
     position: absolute;

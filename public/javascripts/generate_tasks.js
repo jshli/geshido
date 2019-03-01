@@ -147,7 +147,7 @@ const createTaskItem = task => {
           <div class="task-item__details">
             <div class='priority-wrapper'>
               ${task.priority ? `<div class="priority-div">
-                  <p class='priority-label'>!</p>
+                  <div class='priority-label'><i class="fas fa-exclamation"></i></div>
               </div>` : ""}
                 
                 <div class="task-item__header-wrap">
@@ -191,7 +191,7 @@ const createTaskItem = task => {
       task.completed ? checkForm.addEventListener('submit', uncompleteTask) :  checkForm.addEventListener('submit', completeTask);
       const modalOverlay = document.createElement('div');
       modalHtml = `<div class="modal">
-          <button class="modal-close"><i class="fas fa-times"></i></button>
+          <button class="modal-close icn-btn"><i class="fas fa-times"></i></button>
           <form class="modal-form" action="/task/${task.id}/edit" method="post">
             <input type="hidden" name="_method" value="put">
             <input type="hidden" name="id" value="${task.id}">
@@ -216,7 +216,7 @@ const createTaskItem = task => {
                 </div>
               </div>
             </div>
-            <button>Save task</button>
+            <button class="btn">Save task</button>
           </form>
         </div>`;
       modalOverlay.classList.add('modal-overlay')
