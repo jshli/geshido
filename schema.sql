@@ -44,3 +44,4 @@ CREATE TABLE users (
 );
 
 ALTER TABLE tasks ADD COLUMN current_timer_id INTEGER;
+ALTER TABLE tasks ADD COLUMN project_name VARCHAR(600);

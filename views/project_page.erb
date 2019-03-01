@@ -1,8 +1,13 @@
 
 <section class="dashboard-section">
   <div class="sidebar">
-    <a href="">Tasks</a>
-    <a href="">Projects</a>
+    <div class="logo-btn">
+      <img src="/imgs/logo.svg" alt="" srcset="">
+    </div>
+    <div>
+      <a class="nav-link" href="/tasks">Tasks</a>
+      <a class="nav-link" href="/projects">Projects</a>
+    </div>
   </div>
   <div class="dashboard-main">
     <h1><%= @project.name %></h1>
@@ -12,6 +17,7 @@
           <button class="icn-btn task-create__btn"><i class="fas fa-plus"></i></button>
           <input type="hidden" name="project_id" value="<%= @project.id%>">
           <input class="task-input" name="task_name" placeholder="New Task">
+          <input type="hidden" name="project_id" placeholder="<%=@project.id%>">
         </form>
         <div class='task-list'>
         </div>
@@ -24,3 +30,4 @@
 
 <script src="/javascripts/application.js"></script>
 <script src="/javascripts/project_tasks.js"></script>
+<script src="/javascripts/generate_tasks.js"></script>

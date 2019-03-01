@@ -1,7 +1,12 @@
 <section class="dashboard-section">
   <div class="sidebar">
-    <a href="">Tasks</a>
-    <a href="/projects">Projects</a>
+    <div class="logo-btn">
+      <img src="/imgs/logo.svg" alt="" srcset="">
+    </div>
+    <div>
+      <a class="nav-link" href="/tasks">Tasks</a>
+      <a class="nav-link" href="/projects">Projects</a>
+    </div>
   </div>
   <div class="dashboard-main">
     <h2 class="section__header">Projects</h2>
@@ -12,8 +17,15 @@
             <%@project.each do |project|%>
               <a class="project-btn" href="/project/<%=project[:name]%>">
                 <div class="project-card">
-                  <h4><%=project[:name]%></h4>
-                  <p><%=@tasks.where(project_id: project[:id]).length%> tasks</p>
+                  <div class="pie-wrapper progress-half">
+                    <div class="pie">
+
+                    </div>
+                  </div>
+                  <div>
+                    <h4><%=project[:name]%></h4>
+                    <p><%=@tasks.where(project_id: project[:id]).length%> tasks</p>
+                  </div>
                 </div>
               </a>            
             <%end%>
